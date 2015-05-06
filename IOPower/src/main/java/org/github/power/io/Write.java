@@ -69,11 +69,11 @@ public interface Write {
 		
 		/**
 		 * Creates a new StringWriter to write to a String.
-		 * @param the initial buffer size
+		 * @param initialSize the initial buffer size
 		 * @return a new StringWriter
 		 */
-		public static StringWriter writeString(int initalSize) {
-			return new StringWriter(initalSize);
+		public static StringWriter writeString(int initialSize) {
+			return new StringWriter(initialSize);
 		}
 		
 		//reading with charset
