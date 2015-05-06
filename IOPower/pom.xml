@@ -18,4 +18,5 @@
 		</plugins>
 	</build>
   <name>Power Libraries</name>
+  <url>https://github.com/manuel-hegner/power-libraries</url>
 </project>
