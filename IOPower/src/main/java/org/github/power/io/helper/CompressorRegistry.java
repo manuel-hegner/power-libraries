@@ -25,7 +25,6 @@ public class CompressorRegistry {
 	private CompressorRegistry() {
 		extensionInputMap=new HashMap<>();
 		extensionOutputMap=new HashMap<>();
-		
 		registerWrapper("gz", GZIPInputStream::new, GZIPOutputStream::new);
 		registerWrapper("zip", ZipInputStream::new, ZipOutputStream::new);
 	}
@@ -39,6 +38,17 @@ public class CompressorRegistry {
 		return INSTANCE;
 	}
 
+	public boolean canWrap(String fileName) {
+		int index;
+		if((index=fileName.lastIndexOf('.'))>=0) {
+			if(extensionInputMap.containsKey(fileName.substring(index+1)))
+				return true;
+			else
+				return false;
+		}
+		return false;
+	}
+	
 	/**
 	 * This method will wrap the provided stream with a decompressing stream if it recognizes the extension of 
 	 * the given file
