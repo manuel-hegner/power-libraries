@@ -1,13 +1,11 @@
 package org.github.power.io.builder;
 
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
 import org.github.power.io.builder.targets.ByteArrayTarget;
-import org.github.power.io.builder.targets.Target;
 import org.github.power.io.helper.byteout.BADataOutputStream;
 import org.github.power.io.helper.byteout.BAObjectOutputStream;
 import org.github.power.io.helper.byteout.BAOutputStream;
@@ -15,6 +13,15 @@ import org.github.power.io.helper.byteout.BAPrintWriter;
 import org.github.power.io.helper.byteout.BAWriter;
 import org.github.power.io.helper.byteout.BAZipOutputStream;
 
+/**
+ * This builder is used to create an output chain. In contrast to the normal {@link OutBuilder} this class
+ * returns custom writers and streams that allow you to directly access the underlying byte buffer that is 
+ * used as a final element in the chain. 
+ * 
+ * @see OutBuilder
+ * @author Manuel Hegner
+ *
+ */
 public class ByteOutBuilder extends OutBuilder {
 
 	private ByteArrayTarget target; 
@@ -26,17 +33,17 @@ public class ByteOutBuilder extends OutBuilder {
 	
 	@Override
 	public BAOutputStream fromStream() throws IOException {
-		return new BAOutputStream(wrapOutputStream(target), target.getLastStream());
+		return new BAOutputStream(createOutputStream(), target.getLastStream());
 	}
 	
 	@Override
 	public BAWriter fromWriter() throws IOException {
-		return new BAWriter(new OutputStreamWriter(wrapOutputStream(target)), target.getLastStream());
+		return new BAWriter(new OutputStreamWriter(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override
 	public BAWriter fromWriter(Charset charset) throws IOException {
-		return new BAWriter(new OutputStreamWriter(wrapOutputStream(target), charset), target.getLastStream());
+		return new BAWriter(new OutputStreamWriter(createOutputStream(), charset), target.getLastStream());
 	}
 	
 	@Override
@@ -51,17 +58,17 @@ public class ByteOutBuilder extends OutBuilder {
 	
 	@Override
 	public BAObjectOutputStream fromObjects() throws IOException {
-		return new BAObjectOutputStream(new BufferedOutputStream(wrapOutputStream(target)), target.getLastStream());
+		return new BAObjectOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override
 	public BADataOutputStream fromData() throws IOException {
-		return new BADataOutputStream(new BufferedOutputStream(wrapOutputStream(target)), target.getLastStream());
+		return new BADataOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override
 	public BAZipOutputStream fromZip() throws IOException {
-		return new BAZipOutputStream(new BufferedOutputStream(wrapOutputStream(target)), target.getLastStream());
+		return new BAZipOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override

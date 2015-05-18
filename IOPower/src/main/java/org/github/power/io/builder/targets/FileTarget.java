@@ -5,6 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * This class represents a file as the target of the output chain. 
+ * @author Manuel Hegner
+ *
+ */
 public class FileTarget implements Target {
 
 	private File file;

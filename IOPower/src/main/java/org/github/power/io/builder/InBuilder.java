@@ -39,27 +39,27 @@ public class InBuilder {
 	}
 	
 	public InputStream toStream() throws IOException {
-		return wrapInputStream(source);
+		return createInputStream();
 	}
 	
 	public BufferedReader toReader() throws IOException {
-		return new BufferedReader(new InputStreamReader(wrapInputStream(source)));
+		return new BufferedReader(new InputStreamReader(createInputStream()));
 	}
 	
 	public BufferedReader toReader(Charset charset) throws IOException {
-		return new BufferedReader(new InputStreamReader(wrapInputStream(source), charset));
+		return new BufferedReader(new InputStreamReader(createInputStream(), charset));
 	}
 	
 	public ObjectInputStream toObjects() throws IOException {
-		return new ObjectInputStream(new BufferedInputStream(wrapInputStream(source)));
+		return new ObjectInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
 	public DataInputStream toData() throws IOException {
-		return new DataInputStream(new BufferedInputStream(wrapInputStream(source)));
+		return new DataInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
 	public ZipInputStream toZip() throws IOException {
-		return new ZipInputStream(new BufferedInputStream(wrapInputStream(source)));
+		return new ZipInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
 	public String readAll() throws IOException {
@@ -105,7 +105,7 @@ public class InBuilder {
 	}
 
 	@SuppressWarnings("resource")
-	private InputStream wrapInputStream(Source source) throws IOException {
+	private InputStream createInputStream() throws IOException {
 		InputStream stream=source.openStream();
 		if(uncompress) {
 			if(source.hasName() && CompressorRegistry.getInstance().canWrap(source.getName()))
