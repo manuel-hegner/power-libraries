@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class represents a source that is a byte array.
+ * @author Manuel Hegner
+ */
 public class ByteArraySource implements Source {
 
 	private byte[] bytes;

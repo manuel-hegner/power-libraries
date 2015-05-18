@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class represents a source that is a f as an input.
+ * @author Manuel Hegner
+ */
 public class FileSource implements Source {
 
 	private File file;
@@ -23,6 +27,9 @@ public class FileSource implements Source {
 		return true;
 	}
 
+	/**
+	 * @return the file name
+	 */
 	@Override
 	public String getName() {
 		return file.getName();

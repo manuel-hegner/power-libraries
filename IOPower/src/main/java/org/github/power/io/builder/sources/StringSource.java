@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * This class represents a source that is a String. It also needs the charset used to transform the String into a bytestream. 
+ * @author Manuel Hegner
+ */
 public class StringSource implements Source {
 
 	private String string;
