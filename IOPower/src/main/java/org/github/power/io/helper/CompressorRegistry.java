@@ -38,10 +38,31 @@ public class CompressorRegistry {
 		return INSTANCE;
 	}
 
-	public boolean canWrap(String fileName) {
+	/**
+	 * @param fileName the name of the file or an url or something else that ends with an file extension
+	 * @return true, if there is any specific {@link InputStreamWrapper} known to this class that could wrap
+	 * the specified file
+	 */
+	public boolean canWrapInput(String fileName) {
 		int index;
 		if((index=fileName.lastIndexOf('.'))>=0) {
 			if(extensionInputMap.containsKey(fileName.substring(index+1)))
+				return true;
+			else
+				return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * @param fileName the name of the file or an url or something else that ends with an file extension
+	 * @return true, if there is any specific {@link OutputStreamWrapper} known to this class that could wrap
+	 * the specified file
+	 */
+	public boolean canWrapOutput(String fileName) {
+		int index;
+		if((index=fileName.lastIndexOf('.'))>=0) {
+			if(extensionOutputMap.containsKey(fileName.substring(index+1)))
 				return true;
 			else
 				return false;

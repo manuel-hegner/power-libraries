@@ -154,7 +154,7 @@ public class OutBuilder {
 		if(base64Encoder!=null)
 			stream=base64Encoder.wrap(stream);
 		if(compress) {
-			if(target.hasName() && CompressorRegistry.getInstance().canWrap(target.getName()))
+			if(target.hasName() && CompressorRegistry.getInstance().canWrapOutput(target.getName()))
 				stream=CompressorRegistry.getInstance().wrap(target.getName(), stream);
 			else
 				stream=new DeflaterOutputStream(stream);

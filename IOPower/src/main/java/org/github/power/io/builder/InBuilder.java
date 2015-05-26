@@ -262,7 +262,7 @@ public class InBuilder {
 	private InputStream createInputStream() throws IOException {
 		InputStream stream=source.openStream();
 		if(decompress) {
-			if(source.hasName() && CompressorRegistry.getInstance().canWrap(source.getName()))
+			if(source.hasName() && CompressorRegistry.getInstance().canWrapInput(source.getName()))
 				stream=CompressorRegistry.getInstance().wrap(source.getName(), stream);
 			else
 				stream=new DeflaterInputStream(stream);
