@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+/**
+ * This interface should be used in all classes that extend a normal Writer or InputStream but rely upon
+ * a {@link ByteArrayOutputStream} at the end of the chain. This interface implements default delegate methods
+ * to all common {@link ByteArrayOutputStream} methods.
+ * @author Manuel Hegner
+ *
+ */
 public interface ByteArrayWrapper {
 	
 	/**

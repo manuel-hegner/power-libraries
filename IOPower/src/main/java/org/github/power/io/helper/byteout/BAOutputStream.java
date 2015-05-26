@@ -1,9 +1,18 @@
 package org.github.power.io.helper.byteout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * This class extends a {@link OutputStream} with the ability to directly access an underlying 
+ * {@link ByteArrayOutputStream}.
+ * 
+ * @see DataOutputStream
+ * @see ByteArrayWrapper
+ * @author Manuel Hegner
+ */
 public class BAOutputStream extends OutputStream implements ByteArrayWrapper {
 	
 	private OutputStream out;

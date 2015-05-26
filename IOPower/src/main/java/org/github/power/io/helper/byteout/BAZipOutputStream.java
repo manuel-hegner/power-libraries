@@ -1,9 +1,18 @@
 package org.github.power.io.helper.byteout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.OutputStream;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * This class extends a {@link ZipOutputStream} with the ability to directly access an underlying 
+ * {@link ByteArrayOutputStream}.
+ * 
+ * @see DataOutputStream
+ * @see ByteArrayWrapper
+ * @author Manuel Hegner
+ */
 public class BAZipOutputStream extends ZipOutputStream implements ByteArrayWrapper {
 	
 	private ByteArrayOutputStream underlyingOutput;

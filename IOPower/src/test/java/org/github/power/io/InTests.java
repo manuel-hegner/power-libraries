@@ -34,7 +34,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").uncompress().toReader(StandardCharsets.UTF_8)) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").decompress().toReader(StandardCharsets.UTF_8)) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)

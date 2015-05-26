@@ -4,6 +4,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 
+/**
+ * This class extends a {@link DataOutputStream} with the ability to directly access an underlying 
+ * {@link ByteArrayOutputStream}.
+ * 
+ * @see DataOutputStream
+ * @see ByteArrayWrapper
+ * @author Manuel Hegner
+ */
 public class BADataOutputStream extends DataOutputStream implements ByteArrayWrapper {
 	
 	private ByteArrayOutputStream underlyingOutput;

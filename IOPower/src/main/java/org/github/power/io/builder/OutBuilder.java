@@ -27,7 +27,7 @@ import org.github.power.io.helper.CompressorRegistry;
 public class OutBuilder {
 	private Target target;
 	private boolean compress=false;
-	private boolean encodeBase64=false;
+	private Base64.Encoder base64Encoder=null;
 
 	public OutBuilder(Target target) {
 		this.target=target;
@@ -35,9 +35,11 @@ public class OutBuilder {
 	
 	/**
 	 * This method will tell the builder to compress the bytes. The returned writer or stream will contain an appropriate
-	 * compressor. If the defined target specifies a name with a file ending than the builder will try to 
+	 * compressor. If the defined target specifies a name with a file ending, the builder will try to 
 	 * use the appropriate compressor for the file extension. If there is no extension or it is unknown this
 	 * simply adds a {@link DeflaterOutputStream} to the chain.
+	 * 
+	 * If you want to add file extensions to the automatic selection see {@link CompressorRegistry#registerWrapper}.
 	 * @return this builder
 	 */
 	public OutBuilder compress() {
@@ -50,7 +52,17 @@ public class OutBuilder {
 	 * @return this builder
 	 */
 	public OutBuilder encodeBase64() {
-		encodeBase64=true;
+		base64Encoder=Base64.getEncoder();
+		return this;
+	}
+	
+	/**
+	 * This method will add a {@link Base64.Encoder} to this chain.
+	 * @param encoder the specific Base64 encoder that should be used.
+	 * @return this builder
+	 */
+	public OutBuilder encodeBase64(Base64.Encoder encoder) {
+		base64Encoder=encoder;
 		return this;
 	}
 	
@@ -139,8 +151,8 @@ public class OutBuilder {
 	@SuppressWarnings("resource")
 	protected OutputStream createOutputStream() throws IOException {
 		OutputStream stream=target.openStream();
-		if(encodeBase64)
-			stream=Base64.getEncoder().wrap(stream);
+		if(base64Encoder!=null)
+			stream=base64Encoder.wrap(stream);
 		if(compress) {
 			if(target.hasName() && CompressorRegistry.getInstance().canWrap(target.getName()))
 				stream=CompressorRegistry.getInstance().wrap(target.getName(), stream);
