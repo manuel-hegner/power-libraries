@@ -44,7 +44,7 @@ public interface Out {
 	}
 
 	/**
-	 * This creates an ouput of any kind to an {@link InputStream}. The returned {@link OutBuilder} can be used
+	 * This creates an ouput of any kind to an {@link OutputStream}. The returned {@link OutBuilder} can be used
 	 * to specifiy which kind of Writer or OutputStream should be created and allows you to specify further how
 	 * the output chain is build.
 	 * Be aware that if you use this method you can only build one Output with the Builder. Otherwise the given
