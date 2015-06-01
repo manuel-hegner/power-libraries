@@ -1,6 +1,7 @@
 package org.github.power.io.helper.byteout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -12,7 +13,7 @@ import java.nio.charset.Charset;
  * @author Manuel Hegner
  *
  */
-public interface ByteArrayWrapper {
+public interface ByteArrayWrapper extends Closeable {
 	
 	/**
 	 * This method returns the ByteArrayOutputStream wrapped by this object.
@@ -24,11 +25,15 @@ public interface ByteArrayWrapper {
      * Writes the complete contents of this byte array output stream to
      * the specified output stream argument, as if by calling the output
      * stream's write method using <code>out.write(buf, 0, count)</code>.
+     * 
+     * This method automatically closes this stream or writer. If you need to use
+     * this method without closing the output, call <code>getUnderlyingOutput().writeTo(out)</code>
      *
      * @param      out   the output stream to which to write the data.
      * @exception  IOException  if an I/O error occurs.
      */
 	public default void writeTo(OutputStream out) throws IOException {
+		close();
 		getUnderlyingOutput().writeTo(out);
 	}
 
@@ -48,10 +53,13 @@ public interface ByteArrayWrapper {
      * size of this output stream and the valid contents of the buffer
      * have been copied into it.
      *
+     * This method automatically closes this stream or writer. If you need to use
+     * this method without closing the output, call <code>getUnderlyingOutput().toByteArray()</code>
      * @return  the current contents of this output stream, as a byte array.
      * @see     java.io.ByteArrayOutputStream#size()
      */
 	public default byte[] toByteArray() {
+		closeSilently();
 		return getUnderlyingOutput().toByteArray();
 	}
 
@@ -76,11 +84,24 @@ public interface ByteArrayWrapper {
      * sequences with this charset's default replacement string. The {@link
      * java.nio.charset.CharsetDecoder} class should be used when more control
      * over the decoding process is required.
+     * 
+     * This method automatically closes this stream or writer. If you need to use
+     * this method without closing the output, call <code>getUnderlyingOutput().writeTo(out)</code>
      *
      * @param      charset  a supported {@link java.nio.charset.Charset charset}
      * @return     String decoded from the buffer's contents.
      */
 	public default String toString(Charset charset) {
+		closeSilently();
 		return new String(getUnderlyingOutput().toByteArray(), charset);
+	}
+	
+	/**
+	 * Closes this Closable without throwing any exceptions. 
+	 */
+	public default void closeSilently() {
+		try {
+			close();
+		} catch(Exception e) {}
 	}
 }
