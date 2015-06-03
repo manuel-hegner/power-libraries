@@ -13,6 +13,8 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.power.io.In;
+
 public class InTests {
 
 	@Test

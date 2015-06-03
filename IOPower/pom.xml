@@ -1,10 +1,28 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.github.power.io</groupId>
-  <artifactId>IOPower</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.power</groupId>
+	<artifactId>IOPower</artifactId>
+	<version>1.0.0</version>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Manuel Hegner</name>
+			<url>https://github.com/manuel-hegner</url>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/manuel-hegner/power-libraries</url>
+		<connection>scm:git:git://github.com/manuel-hegner/power-libraries.git</connection>
+		<developerConnection>scm:git:git@github.com:manuel-hegner/power-libraries.git</developerConnection>
+	</scm>
+	
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -17,14 +35,17 @@
 			</plugin>
 		</plugins>
 	</build>
-  <name>Power Libraries</name>
-  <url>https://github.com/manuel-hegner/power-libraries</url>
-  <dependencies>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.12</version>
-  		<scope>test</scope>
-  	</dependency>
-  </dependencies>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<url>http://manuel-hegner.github.io/power-libraries/</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<description>Power Libraries is a small project to collect some repeatedly needed or otherwise useful Java 8 classes in a collection of tiny libraries.
+
+IO Power is the first and really tiny library of the Power Libraries. It contains some simple helper method for opening Input- and Outputstreams. The main purpose of IO Power is to make opening streams, readers and writers less cluttered and simple to understand.</description>
 </project>
