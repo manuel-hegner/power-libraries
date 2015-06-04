@@ -9,8 +9,8 @@ import java.util.Base64;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.power.io.Out;
-import com.github.power.io.helper.byteout.BAObjectOutputStream;
+import com.github.powerlibraries.io.Out;
+import com.github.powerlibraries.io.helper.byteout.BAObjectOutputStream;
 
 public class OutTests {
 	

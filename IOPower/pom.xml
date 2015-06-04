@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.power</groupId>
+	<groupId>com.github.powerlibraries</groupId>
 	<artifactId>IOPower</artifactId>
 	<version>1.0.0</version>
 	<licenses>
@@ -17,9 +17,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<url>https://github.com/manuel-hegner/power-libraries</url>
-		<connection>scm:git:git://github.com/manuel-hegner/power-libraries.git</connection>
-		<developerConnection>scm:git:git@github.com:manuel-hegner/power-libraries.git</developerConnection>
+		<url>https://github.com/power-libraries/power-libraries</url>
+		<connection>scm:git:git://github.com/power-libraries/power-libraries.git</connection>
+		<developerConnection>scm:git:git@github.com:power-libraries/power-libraries.git</developerConnection>
 	</scm>
 	
 	<build>
@@ -36,7 +36,7 @@
 		</plugins>
 	</build>
 	<name>${project.groupId}:${project.artifactId}</name>
-	<url>http://manuel-hegner.github.io/power-libraries/</url>
+	<url>http://power-libraries.github.io</url>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
