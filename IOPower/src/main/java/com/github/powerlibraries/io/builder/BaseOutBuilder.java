@@ -15,6 +15,14 @@ import java.util.Objects;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipOutputStream;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+
 import com.github.powerlibraries.io.builder.targets.Target;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
 
@@ -113,59 +121,6 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 		return new DataOutputStream(new BufferedOutputStream(createOutputStream()));
 	}
 	
-	/**
-	 * This method writes the given Object to the output by calling {@link Objects#toString()}.
-	 * @param o the object to write to the output
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public void write(Object o) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
-			out.write(Objects.toString(o));
-		}
-	}
-	
-	/**
-	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
-	 * @param iterable the {@link Iterable} to write to the output
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public void writeLines(Iterable<?> iterable) throws IOException {
-		writeLines(iterable.iterator());
-	}
-	
-	/**
-	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
-	 * @param array the array to write to the output
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public <T> void writeLines(T[] array) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
-			for(int i=0;i<array.length;i++) {
-				if(i>0)
-					out.newLine();
-				out.write(Objects.toString(array[i]));
-			}
-		}
-	}
-	
-	/**
-	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
-	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
-	 * @param iterator the {@link Iterator} to write to the output
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public void writeLines(Iterator<?> iterator) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
-			while(iterator.hasNext()) {
-				out.write(Objects.toString(iterator.next()));
-				if(iterator.hasNext())
-					out.newLine();
-			}
-		}
-	}
-
 	/**
 	 * This method creates a {@link ZipOutputStream} from this builder with all the chosen options.
 	 * @return a {@link ZipOutputStream}

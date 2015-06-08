@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
@@ -21,6 +22,13 @@ import java.util.stream.StreamSupport;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipInputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.github.powerlibraries.io.builder.sources.Source;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
@@ -119,6 +127,34 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 		return new ZipInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
+	/**
+	 * This method reads an XML document from the selected source into a {@link Document}.
+	 * It uses a default {@link DocumentBuilderFactory} and {@link DocumentBuilder}.
+	 * @return the parsed Document
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 * @throws SAXException if any parse errors occur
+	 */
+	public Document readXML() throws IOException, SAXException {
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			return readXML(builder);
+		} catch (ParserConfigurationException e) {
+			throw new RuntimeException("DocumentBuilder creation failed", e);
+		}
+	}
+	/**
+	 * This method reads an XML document from the selected source into a {@link Document}.
+	 * @param documentBuilder a fresh {@link DocumentBuilder} that is used as parser
+	 * @return the parsed Document
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 * @throws SAXException if any parse errors occur
+	 */
+	private Document readXML(DocumentBuilder documentBuilder) throws IOException, SAXException {
+		try(BufferedInputStream in=new BufferedInputStream(this.toStream())) {
+			return documentBuilder.parse(in);
+		}
+	}
+
 	/**
 	 * This method reads the complete input in a String. Lines are seperated with a single '\n'.
 	 * @return a String containing the whole content of the file
