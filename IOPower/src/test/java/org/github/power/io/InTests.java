@@ -22,7 +22,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").toReader(StandardCharsets.UTF_8)) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").withUTF8().toReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)
@@ -36,7 +36,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").decompress().toReader(StandardCharsets.UTF_8)) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").decompress().withUTF8().toReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)
@@ -74,7 +74,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		for(String l:expected) {
 			String base64=Base64.getEncoder().encodeToString(l.getBytes(StandardCharsets.UTF_8));
-			Assert.assertEquals(l, In.string(base64).decodeBase64().readAll(StandardCharsets.UTF_8));
+			Assert.assertEquals(l, In.string(base64).decodeBase64().withUTF8().readAll());
 		}
 	}
 
@@ -82,7 +82,7 @@ public class InTests {
 	public void testResource() throws IOException {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		//test
-		try(BufferedReader in=In.resource(InTests.class, "/utf8test.txt").toReader(StandardCharsets.UTF_8)) {
+		try(BufferedReader in=In.resource(InTests.class, "/utf8test.txt").withUTF8().toReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)

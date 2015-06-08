@@ -2,13 +2,11 @@ package com.github.powerlibraries.io.builder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import com.github.powerlibraries.io.helper.CompressorRegistry;
  * @author Manuel Hegner
  *
  */
-public class InBuilder {
+public class InBuilder extends CharsetHolder<InBuilder>{
 	private Source source;
 	private boolean decompress=false;
 	private Base64.Decoder base64Decoder=null;
@@ -91,17 +89,7 @@ public class InBuilder {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public BufferedReader toReader() throws IOException {
-		return new BufferedReader(new InputStreamReader(createInputStream()));
-	}
-	
-	/**
-	 * This method creates a {@link BufferedReader} from this builder with all the chosen options.
-	 * @param charset the charset that should be used to decode the bytes
-	 * @return a {@link BufferedReader}
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public BufferedReader toReader(Charset charset) throws IOException {
-		return new BufferedReader(new InputStreamReader(createInputStream(), charset));
+		return new BufferedReader(new InputStreamReader(createInputStream(), getCharset()));
 	}
 	
 	/**
@@ -133,22 +121,11 @@ public class InBuilder {
 	
 	/**
 	 * This method reads the complete input in a String. Lines are seperated with a single '\n'.
-	 * It uses the default {@link Charset} for that.
 	 * @return a String containing the whole content of the file
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public String readAll() throws IOException {
-		return readAll(Charset.defaultCharset());
-	}
-	
-	/**
-	 * This method reads the complete input in a String. Lines are seperated with a single '\n'.
-	 * @param charset the charset that should be used to decode the bytes
-	 * @return a String containing the whole content of the file
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public String readAll(Charset charset) throws IOException {
-		try(BufferedReader in=this.toReader(charset)) {
+		try(BufferedReader in=this.toReader()) {
 			StringBuilder sb=new StringBuilder();
 			String l;
 			while((l=in.readLine())!=null) {
@@ -164,23 +141,11 @@ public class InBuilder {
 	/**
 	 * This method reads the complete input in a {@link List} of Strings. Each element of the list 
 	 * represents one line of the source document.
-	 * It uses the default {@link Charset} for that.
 	 * @return a String containing the whole content of the file
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public List<String> readLines() throws IOException {
-		return readLines(Charset.defaultCharset());
-	}
-	
-	/**
-	 * This method reads the complete input in a {@link List} of Strings. Each element of the list 
-	 * represents one line of the source document.
-	 * @param charset the charset that should be used to decode the bytes
-	 * @return a String containing the whole content of the file
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public List<String> readLines(Charset charset) throws IOException {
-		try(BufferedReader in=this.toReader(charset)) {
+		try(BufferedReader in=this.toReader()) {
 			ArrayList<String> list=new ArrayList<>();
 			String l;
 			while((l=in.readLine())!=null)
@@ -195,27 +160,12 @@ public class InBuilder {
 	 * reader is only closed if the created stream is fully explored. This means this operation should
 	 * not be used with {@link Stream#findAny()} or similar terminal operations or the underlying stream
 	 * will not be closed. Use {@link InBuilder#readAll()}.stream() if you require these methods.
-	 * This method uses the default {@link Charset}.
-	 * @return a String containing the whole content of the file
-	 * @throws IOException if any element of the chain throws an {@link IOException}
-	 */
-	public Stream<String> streamLines() throws IOException {
-		return streamLines(Charset.defaultCharset());
-	}
-	
-	/**
-	 * This method reads the complete input in a {@link Stream} of Strings. Each element of the stream 
-	 * represents one line of the source document. The stream is lazily populated. Be aware that the created
-	 * reader is only closed if the created stream is fully explored. This means this operation should
-	 * not be used with {@link Stream#findAny()} or similar terminal operations or the underlying stream
-	 * will not be closed. Use {@link InBuilder#readAll()}.stream() if you require these methods.
-	 * @param charset the charset that should be used to decode the bytes
 	 * @return a String containing the whole content of the file
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	@SuppressWarnings("resource")
-	public Stream<String> streamLines(Charset charset) throws IOException {
-		BufferedReader in=this.toReader(charset);
+	public Stream<String> streamLines() throws IOException {
+		BufferedReader in=this.toReader();
 		
 		Iterator<String> iter = new Iterator<String>() {
             String nextLine = null;

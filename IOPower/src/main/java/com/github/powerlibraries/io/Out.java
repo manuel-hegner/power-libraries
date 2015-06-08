@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 import com.github.powerlibraries.io.builder.ByteOutBuilder;
 import com.github.powerlibraries.io.builder.OutBuilder;

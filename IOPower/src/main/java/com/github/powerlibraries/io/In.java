@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 import com.github.powerlibraries.io.builder.InBuilder;
-import com.github.powerlibraries.io.builder.OutBuilder;
+import com.github.powerlibraries.io.builder.BaseOutBuilder;
 import com.github.powerlibraries.io.builder.sources.ByteArraySource;
 import com.github.powerlibraries.io.builder.sources.FileSource;
 import com.github.powerlibraries.io.builder.sources.InputStreamSource;
