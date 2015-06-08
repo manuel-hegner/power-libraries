@@ -22,7 +22,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").withUTF8().toReader()) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").withUTF8().asReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)
@@ -36,7 +36,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").decompress().withUTF8().toReader()) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt.gz").decompress().withUTF8().asReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)
@@ -60,7 +60,7 @@ public class InTests {
 		ArrayList<String> expected=loadExpected(Charset.defaultCharset());
 		
 		//test
-		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").toReader()) {
+		try(BufferedReader in=In.file("target/test-classes/utf8test.txt").asReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)
@@ -82,7 +82,7 @@ public class InTests {
 	public void testResource() throws IOException {
 		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
 		//test
-		try(BufferedReader in=In.resource(InTests.class, "/utf8test.txt").withUTF8().toReader()) {
+		try(BufferedReader in=In.resource(InTests.class, "/utf8test.txt").withUTF8().asReader()) {
 			String l;
 			Iterator<String> expectedIt=expected.iterator();
 			while((l=in.readLine())!=null)

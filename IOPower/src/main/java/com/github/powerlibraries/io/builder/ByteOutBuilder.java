@@ -45,32 +45,32 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	}
 	
 	@Override
-	public BAOutputStream fromStream() throws IOException {
+	public BAOutputStream asStream() throws IOException {
 		return new BAOutputStream(createOutputStream(), target.getLastStream());
 	}
 	
 	@Override
-	public BAWriter fromWriter() throws IOException {
+	public BAWriter asWriter() throws IOException {
 		return new BAWriter(new OutputStreamWriter(createOutputStream(), getCharset()), target.getLastStream());
 	}
 	
 	@Override
-	public BAPrintWriter fromPrint() throws IOException {
-		return new BAPrintWriter(super.fromWriter(), target.getLastStream());
+	public BAPrintWriter asPrint() throws IOException {
+		return new BAPrintWriter(super.asWriter(), target.getLastStream());
 	}
 	
 	@Override
-	public BAObjectOutputStream fromObjects() throws IOException {
+	public BAObjectOutputStream asObjects() throws IOException {
 		return new BAObjectOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override
-	public BADataOutputStream fromData() throws IOException {
+	public BADataOutputStream asData() throws IOException {
 		return new BADataOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
 	@Override
-	public BAZipOutputStream fromZip() throws IOException {
+	public BAZipOutputStream asZip() throws IOException {
 		return new BAZipOutputStream(new BufferedOutputStream(createOutputStream()), target.getLastStream());
 	}
 	
@@ -85,7 +85,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public byte[] write(Object o) throws IOException {
-		try(BAWriter out=this.fromWriter()) {
+		try(BAWriter out=this.asWriter()) {
 			out.write(Objects.toString(o));
 			return out.toByteArray();
 		}
@@ -111,7 +111,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public <T> byte[] writeLines(T[] array) throws IOException {
-		try(BAWriter out=this.fromWriter()) {
+		try(BAWriter out=this.asWriter()) {
 			for(int i=0;i<array.length;i++) {
 				if(i>0)
 					out.newLine();
@@ -129,7 +129,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public byte[] writeLines(Iterator<?> iterator) throws IOException {
-		try(BAWriter out=this.fromWriter()) {
+		try(BAWriter out=this.asWriter()) {
 			while(iterator.hasNext()) {
 				out.write(Objects.toString(iterator.next()));
 				if(iterator.hasNext())
@@ -161,7 +161,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public byte[] writeXML(Document document, Transformer transformer) throws IOException, TransformerException {
-		try(BAOutputStream out=this.fromStream()) {
+		try(BAOutputStream out=this.asStream()) {
 			transformer.transform(new DOMSource(document), new StreamResult(out));
 			return out.toByteArray();
 		}
@@ -174,7 +174,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public byte[] copyFrom(InputStream in) throws IOException {
-		try(BAOutputStream out=this.fromStream();
+		try(BAOutputStream out=this.asStream();
 				InputStream input=in;) {
 			byte[] buffer = new byte[8192];
 			int len = 0;
@@ -191,7 +191,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 * @return the written byte array
 	 */
 	public byte[] copyFrom(Reader in) throws IOException {
-		try(BAWriter out=this.fromWriter();
+		try(BAWriter out=this.asWriter();
 				Reader input=in;) {
 			char[] buffer = new char[4096];
 			int len = 0;

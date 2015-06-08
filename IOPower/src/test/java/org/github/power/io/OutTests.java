@@ -26,7 +26,7 @@ public class OutTests {
 			expected=Base64.getEncoder().encodeToString(bos.toByteArray());
 		}
 		
-		try(BAObjectOutputStream out=Out.bytes().encodeBase64().fromObjects()) {
+		try(BAObjectOutputStream out=Out.bytes().encodeBase64().asObjects()) {
 			out.writeObject(new Point(4, 2));
 			out.close();
 			Assert.assertEquals(expected, out.toString());

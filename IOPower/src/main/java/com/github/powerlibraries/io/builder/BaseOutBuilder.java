@@ -70,7 +70,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return an {@link OutputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public OutputStream fromStream() throws IOException {
+	public OutputStream asStream() throws IOException {
 		return createOutputStream();
 	}
 	
@@ -80,7 +80,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return a {@link BufferedWriter}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public BufferedWriter fromWriter() throws IOException {
+	public BufferedWriter asWriter() throws IOException {
 		return new BufferedWriter(new OutputStreamWriter(createOutputStream(), getCharset()));
 	}
 	
@@ -89,8 +89,8 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return a {@link PrintWriter}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public PrintWriter fromPrint() throws IOException {
-		return new PrintWriter(fromWriter());
+	public PrintWriter asPrint() throws IOException {
+		return new PrintWriter(asWriter());
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return an {@link ObjectOutputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public ObjectOutputStream fromObjects() throws IOException {
+	public ObjectOutputStream asObjects() throws IOException {
 		return new ObjectOutputStream(new BufferedOutputStream(createOutputStream()));
 	}
 	
@@ -107,7 +107,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return a {@link DataOutputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public DataOutputStream fromData() throws IOException {
+	public DataOutputStream asData() throws IOException {
 		return new DataOutputStream(new BufferedOutputStream(createOutputStream()));
 	}
 	
@@ -116,7 +116,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return a {@link ZipOutputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public ZipOutputStream fromZip() throws IOException {
+	public ZipOutputStream asZip() throws IOException {
 		return new ZipOutputStream(new BufferedOutputStream(createOutputStream()));
 	}
 

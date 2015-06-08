@@ -87,7 +87,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return an {@link InputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public InputStream toStream() throws IOException {
+	public InputStream asStream() throws IOException {
 		return createInputStream();
 	}
 	
@@ -97,7 +97,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return a {@link BufferedReader}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public BufferedReader toReader() throws IOException {
+	public BufferedReader asReader() throws IOException {
 		return new BufferedReader(new InputStreamReader(createInputStream(), getCharset()));
 	}
 	
@@ -106,7 +106,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return a {@link ObjectInputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public ObjectInputStream toObjects() throws IOException {
+	public ObjectInputStream asObjects() throws IOException {
 		return new ObjectInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
@@ -115,7 +115,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return a {@link DataInputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public DataInputStream toData() throws IOException {
+	public DataInputStream asData() throws IOException {
 		return new DataInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
@@ -124,7 +124,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return a {@link ZipInputStream}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	public ZipInputStream toZip() throws IOException {
+	public ZipInputStream asZip() throws IOException {
 		return new ZipInputStream(new BufferedInputStream(createInputStream()));
 	}
 	
@@ -151,7 +151,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @throws SAXException if any parse errors occur
 	 */
 	public Document readXML(DocumentBuilder documentBuilder) throws IOException, SAXException {
-		try(BufferedInputStream in=new BufferedInputStream(this.toStream())) {
+		try(BufferedInputStream in=new BufferedInputStream(this.asStream())) {
 			return documentBuilder.parse(in);
 		}
 	}
@@ -162,7 +162,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public String readAll() throws IOException {
-		try(BufferedReader in=this.toReader()) {
+		try(BufferedReader in=this.asReader()) {
 			StringBuilder sb=new StringBuilder();
 			String l;
 			while((l=in.readLine())!=null) {
@@ -182,7 +182,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public List<String> readLines() throws IOException {
-		try(BufferedReader in=this.toReader()) {
+		try(BufferedReader in=this.asReader()) {
 			ArrayList<String> list=new ArrayList<>();
 			String l;
 			while((l=in.readLine())!=null)
@@ -213,7 +213,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void copyTo(Writer out) throws IOException {
-		try(BufferedReader in=this.toReader()) {
+		try(BufferedReader in=this.asReader()) {
 			char[] buffer = new char[4096];
 			int len = 0;
 			while ((len=in.read(buffer)) != -1)
@@ -232,7 +232,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 */
 	@SuppressWarnings("resource")
 	public Stream<String> streamLines() throws IOException {
-		BufferedReader in=this.toReader();
+		BufferedReader in=this.asReader();
 		
 		Iterator<String> iter = new Iterator<String>() {
             String nextLine = null;

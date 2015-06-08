@@ -33,7 +33,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void write(Object o) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
+		try(BufferedWriter out=this.asWriter()) {
 			out.write(Objects.toString(o));
 		}
 	}
@@ -56,7 +56,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public <T> void writeLines(T[] array) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
+		try(BufferedWriter out=this.asWriter()) {
 			for(int i=0;i<array.length;i++) {
 				if(i>0)
 					out.newLine();
@@ -72,7 +72,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void writeLines(Iterator<?> iterator) throws IOException {
-		try(BufferedWriter out=this.fromWriter()) {
+		try(BufferedWriter out=this.asWriter()) {
 			while(iterator.hasNext()) {
 				out.write(Objects.toString(iterator.next()));
 				if(iterator.hasNext())
@@ -113,7 +113,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void copyFrom(InputStream in) throws IOException {
-		try(OutputStream out=this.fromStream();
+		try(OutputStream out=this.asStream();
 				InputStream input=in;) {
 			byte[] buffer = new byte[8192];
 			int len = 0;
@@ -128,7 +128,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void copyFrom(Reader in) throws IOException {
-		try(BufferedWriter out=this.fromWriter();
+		try(BufferedWriter out=this.asWriter();
 				Reader input=in;) {
 			char[] buffer = new char[4096];
 			int len = 0;
