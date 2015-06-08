@@ -179,6 +179,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	/**
 	 * This method simply reads the first object from the input using an 
 	 * {@link ObjectInputStream} and returns it. 
+	 * @param <T> the expected type of the read object
 	 * @return the read Object
 	 * @throws ClassNotFoundException if the class of a serialized object cannot be found.
 	 * @throws IOException if any element of the chain throws an {@link IOException}
@@ -194,6 +195,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * {@link ObjectInputStream} as it can and returns them. Be aware that
 	 * this method will throw an exception if there are other information in the stream
 	 * than objects (e.g. primitives). 
+	 * @param <T> the expected supertype of the read objects
 	 * @return a list of read objects
 	 * @throws ClassNotFoundException if the class of a serialized object cannot be found.
 	 * @throws IOException if any element of the chain throws an {@link IOException}
