@@ -10,18 +10,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Base64;
-import java.util.Iterator;
-import java.util.Objects;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipOutputStream;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
 
 import com.github.powerlibraries.io.builder.targets.Target;
 import com.github.powerlibraries.io.helper.CompressorRegistry;

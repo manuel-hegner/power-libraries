@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
@@ -149,12 +148,12 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 * @throws SAXException if any parse errors occur
 	 */
-	private Document readXML(DocumentBuilder documentBuilder) throws IOException, SAXException {
+	public Document readXML(DocumentBuilder documentBuilder) throws IOException, SAXException {
 		try(BufferedInputStream in=new BufferedInputStream(this.toStream())) {
 			return documentBuilder.parse(in);
 		}
 	}
-
+	
 	/**
 	 * This method reads the complete input in a String. Lines are seperated with a single '\n'.
 	 * @return a String containing the whole content of the file
