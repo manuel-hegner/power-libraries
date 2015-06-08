@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
@@ -134,6 +135,32 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 			int len = 0;
 			while ((len=input.read(buffer)) != -1)
 				out.write(buffer, 0, len);
+		}
+	}
+	
+	/**
+	 * This method simply writes the given object to the underlying output
+	 * using an {@link ObjectOutputStream}.
+	 * @param object the object to serialize
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeObject(Object object) throws IOException {
+		try(ObjectOutputStream out=this.asObjects()) {
+			out.writeObject(object);
+		}
+	}
+	
+	/**
+	 * This method writes the given objects to the underlying output
+	 * using an {@link ObjectOutputStream}. It does this by simply calling
+	 * {@link ObjectOutputStream#writeObject(Object)} with each given object.
+	 * @param objects the objects to serialize
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeObjects(Object... objects) throws IOException {
+		try(ObjectOutputStream out=this.asObjects()) {
+			for(Object o:objects)
+				out.writeObject(o);
 		}
 	}
 }

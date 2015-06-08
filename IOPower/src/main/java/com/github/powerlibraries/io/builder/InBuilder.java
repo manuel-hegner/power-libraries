@@ -40,6 +40,7 @@ import com.github.powerlibraries.io.helper.CompressorRegistry;
  * @author Manuel Hegner
  *
  */
+@SuppressWarnings("unchecked")
 public class InBuilder extends CharsetHolder<InBuilder>{
 	private Source source;
 	private boolean decompress=false;
@@ -172,6 +173,37 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 				return "";
 			else
 				return sb.substring(0, sb.length()-1);
+		}
+	}
+	
+	/**
+	 * This method simply reads the first object from the input using an 
+	 * {@link ObjectInputStream} and returns it. 
+	 * @return the read Object
+	 * @throws ClassNotFoundException if the class of a serialized object cannot be found.
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public <T> T readObject() throws ClassNotFoundException, IOException {
+		try(ObjectInputStream in=this.asObjects()) {
+			return (T)in.readObject();
+		}
+	}
+	
+	/**
+	 * This method reads as many objects from the input using an 
+	 * {@link ObjectInputStream} as it can and returns them. Be aware that
+	 * this method will throw an exception if there are other information in the stream
+	 * than objects (e.g. primitives). 
+	 * @return a list of read objects
+	 * @throws ClassNotFoundException if the class of a serialized object cannot be found.
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public <T> List<T> readObjects() throws ClassNotFoundException, IOException {
+		try(ObjectInputStream in=this.asObjects()) {
+			ArrayList<T> objects=new ArrayList<>();
+			while(in.available()>0)
+				objects.add((T)in.readObject());
+			return objects;
 		}
 	}
 	

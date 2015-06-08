@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -197,6 +198,36 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 			int len = 0;
 			while ((len=input.read(buffer)) != -1)
 				out.write(buffer, 0, len);
+			return out.toByteArray();
+		}
+	}
+	
+	/**
+	 * This method simply writes the given object to the underlying output
+	 * using an {@link ObjectOutputStream}.
+	 * @param object the object to serialize
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 * @return the written byte array
+	 */
+	public byte[] writeObject(Object object) throws IOException {
+		try(BAObjectOutputStream out=this.asObjects()) {
+			out.writeObject(object);
+			return out.toByteArray();
+		}
+	}
+	
+	/**
+	 * This method writes the given objects to the underlying output
+	 * using an {@link ObjectOutputStream}. It does this by simply calling
+	 * {@link ObjectOutputStream#writeObject(Object)} with each given object.
+	 * @param objects the objects to serialize
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 * @return the written byte array
+	 */
+	public byte[] writeObjects(Object... objects) throws IOException {
+		try(BAObjectOutputStream out=this.asObjects()) {
+			for(Object o:objects)
+				out.writeObject(o);
 			return out.toByteArray();
 		}
 	}
