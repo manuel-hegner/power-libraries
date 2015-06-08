@@ -28,7 +28,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	public SELF withCharset(Charset charset) {
 		if(charset==null)
 			throw new NullPointerException("charset can not be null");
-		this.charset=charset;
+		this.setCharset(charset);
 		return (SELF) this;
 	}
 	
@@ -37,7 +37,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withUTF8() {
-		this.charset=StandardCharsets.UTF_8;
+		this.setCharset(StandardCharsets.UTF_8);
 		return (SELF) this;
 	}
 	
@@ -46,7 +46,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withUTF16() {
-		this.charset=StandardCharsets.UTF_16;
+		this.setCharset(StandardCharsets.UTF_16);
 		return (SELF) this;
 	}
 	
@@ -55,7 +55,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withUTF16BE() {
-		this.charset=StandardCharsets.UTF_16BE;
+		this.setCharset(StandardCharsets.UTF_16BE);
 		return (SELF) this;
 	}
 	
@@ -64,7 +64,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withUTF16LE() {
-		this.charset=StandardCharsets.UTF_16LE;
+		this.setCharset(StandardCharsets.UTF_16LE);
 		return (SELF) this;
 	}
 	
@@ -73,7 +73,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withASCII() {
-		this.charset=StandardCharsets.US_ASCII;
+		this.setCharset(StandardCharsets.US_ASCII);
 		return (SELF) this;
 	}
 	
@@ -82,7 +82,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withISO88591() {
-		this.charset=StandardCharsets.ISO_8859_1;
+		this.setCharset(StandardCharsets.ISO_8859_1);
 		return (SELF) this;
 	}
 	
@@ -95,7 +95,11 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	 * @return this builder
 	 */
 	public SELF withCharset(String charsetName) throws UnsupportedEncodingException {
-		this.charset=Charset.forName(charsetName);
+		this.setCharset(Charset.forName(charsetName));
 		return (SELF) this;
+	}
+
+	protected void setCharset(Charset charset) {
+		this.charset = charset;
 	}
 }

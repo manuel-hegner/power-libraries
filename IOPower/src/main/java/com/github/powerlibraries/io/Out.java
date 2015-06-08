@@ -4,9 +4,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.io.ObjectInputStream.GetField;
 
 import com.github.powerlibraries.io.builder.ByteOutBuilder;
 import com.github.powerlibraries.io.builder.OutBuilder;
+import com.github.powerlibraries.io.builder.StringOutBuilder;
 import com.github.powerlibraries.io.builder.targets.FileTarget;
 import com.github.powerlibraries.io.builder.targets.OutputStreamTarget;
 import com.github.powerlibraries.io.builder.targets.Target;
@@ -82,5 +84,17 @@ public interface Out {
 	 */
 	public static ByteOutBuilder bytes() {
 		return new ByteOutBuilder();
+	}
+	
+	/**
+	 * This creates an ouput of any kind to a {@link StringBuilderOutputStream}. The returned {@link ByteOutBuilder} 
+	 * can be used to specifiy which kind of Writer or OutputStream should be created and allows you 
+	 * to specify further how the output chain is build.
+	 * The returned {@link ByteOutBuilder} returns wrappers instead of the normal {@link OutputStream}s and 
+	 * {@link Writer}s that allow you to directly access the underlying byte array.
+	 * @return an {@link ByteOutBuilder} used to specify which kind of output should be created
+	 */
+	public static StringOutBuilder string() {
+		return new StringOutBuilder();
 	}
 }

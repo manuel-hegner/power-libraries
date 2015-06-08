@@ -8,18 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipInputStream;
@@ -212,7 +206,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	/**
 	 * This method reads the complete input in a {@link List} of Strings. Each element of the list 
 	 * represents one line of the source document.
-	 * @return a String containing the whole content of the file
+	 * @return a list of lines containing the whole content of the file
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public List<String> readLines() throws IOException {
@@ -258,55 +252,20 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	/**
 	 * This method reads the complete input in a {@link Stream} of Strings. Each element of the stream 
 	 * represents one line of the source document. The stream is lazily populated. Be aware that the created
-	 * reader is only closed if the created stream is fully explored. This means this operation should
-	 * not be used with {@link Stream#findAny()} or similar terminal operations or the underlying stream
-	 * will not be closed. Use {@link InBuilder#readAll()}.stream() if you require these methods.
-	 * @return a String containing the whole content of the file
+	 * reader is only closed if the created stream is closed.
+	 * @return a {@link Stream} containing the lines of this input
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	@SuppressWarnings("resource")
 	public Stream<String> streamLines() throws IOException {
 		BufferedReader in=this.asReader();
-		
-		Iterator<String> iter = new Iterator<String>() {
-            String nextLine = null;
-
-            @Override
-            public boolean hasNext() {
-                if (nextLine != null) {
-                    return true;
-                } else {
-                    try {
-                        nextLine = in.readLine();
-                        if(nextLine==null)
-                        	in.close();
-                        return (nextLine != null);
-                    } catch (IOException e) {
-                    	try {
-							in.close();
-						} catch (IOException e1) {}
-                        throw new UncheckedIOException(e);
-                    }
-                }
-            }
-
-            @Override
-            public String next() {
-                if (nextLine != null || hasNext()) {
-                    String line = nextLine;
-                    nextLine = null;
-                    return line;
-                } else {
-                	try {
-						in.close();
-					} catch (IOException e1) {}
-                    throw new NoSuchElementException();
-                }
-            }
-        };
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                iter, Spliterator.ORDERED | Spliterator.NONNULL), false);
-		
+		return in.lines().onClose(() ->  {
+			try {
+				in.close();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}	
+		});
 	}
 
 	@SuppressWarnings("resource")
