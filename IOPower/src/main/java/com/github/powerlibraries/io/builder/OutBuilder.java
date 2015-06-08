@@ -12,6 +12,9 @@ import java.lang.annotation.AnnotationFormatError;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipOutputStream;
 
@@ -87,7 +90,7 @@ public class OutBuilder {
 	
 	/**
 	 * This method creates a {@link BufferedWriter} from this builder with all the chosen options.
-	 * @param charset the charset used to convert the bytes into characters
+	 * @param charset the charset used to convert the characters into bytes
 	 * @return a {@link BufferedWriter}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
@@ -107,7 +110,7 @@ public class OutBuilder {
 	
 	/**
 	 * This method creates a {@link PrintWriter} from this builder with all the chosen options. 
-	 * @param charset the charset used to convert the bytes into characters
+	 * @param charset the charset used to convert the characters into bytes
 	 * @return a {@link PrintWriter}
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
@@ -131,6 +134,116 @@ public class OutBuilder {
 	 */
 	public DataOutputStream fromData() throws IOException {
 		return new DataOutputStream(new BufferedOutputStream(createOutputStream()));
+	}
+	
+	/**
+	 * This method writes the given Object to the output by calling {@link Objects#toString()}.
+	 * @param o the object to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(Object o) throws IOException {
+		try(BufferedWriter out=this.fromWriter()) {
+			out.write(Objects.toString(o));
+		}
+	}
+	
+	/**
+	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param iterable the {@link Iterable} to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeLines(Iterable<?> iterable) throws IOException {
+		writeLines(iterable.iterator());
+	}
+	
+	/**
+	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param array the array to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public <T> void writeLines(T[] array) throws IOException {
+		try(BufferedWriter out=this.fromWriter()) {
+			for(int i=0;i<array.length;i++) {
+				if(i>0)
+					out.newLine();
+				out.write(Objects.toString(array[i]));
+			}
+		}
+	}
+	
+	/**
+	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
+	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
+	 * @param iterator the {@link Iterator} to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeLines(Iterator<?> iterator) throws IOException {
+		try(BufferedWriter out=this.fromWriter()) {
+			while(iterator.hasNext()) {
+				out.write(Objects.toString(iterator.next()));
+				if(iterator.hasNext())
+					out.newLine();
+			}
+		}
+	}
+	
+	/**
+	 * This method writes the given Object to the output by calling {@link Objects#toString()}.
+	 * @param o the object to write to the output
+	 * @param charset the charset used to convert the characters into bytes
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(Object o, Charset charset) throws IOException {
+		try(BufferedWriter out=this.fromWriter(charset)) {
+			out.write(Objects.toString(o));
+		}
+	}
+	
+	/**
+	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param iterable the {@link Iterable} to write to the output
+	 * @param charset the charset used to convert the characters into bytes
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeLines(Iterable<?> iterable, Charset charset) throws IOException {
+		writeLines(iterable.iterator(), charset);
+	}
+	
+	/**
+	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param array the array to write to the output
+	 * @param charset the charset used to convert the characters into bytes
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public <T> void writeLines(T[] array, Charset charset) throws IOException {
+		try(BufferedWriter out=this.fromWriter(charset)) {
+			for(int i=0;i<array.length;i++) {
+				if(i>0)
+					out.newLine();
+				out.write(Objects.toString(array[i]));
+			}
+		}
+	}
+	
+	/**
+	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
+	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
+	 * @param iterator the {@link Iterator} to write to the output
+	 * @param charset the charset used to convert the characters into bytes
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeLines(Iterator<?> iterator, Charset charset) throws IOException {
+		try(BufferedWriter out=this.fromWriter(charset)) {
+			while(iterator.hasNext()) {
+				out.write(Objects.toString(iterator.next()));
+				if(iterator.hasNext())
+					out.newLine();
+			}
+		}
 	}
 
 	/**
