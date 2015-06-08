@@ -3,6 +3,11 @@ package com.github.powerlibraries.io;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
+/**
+ * This class contains static constants used by IO Power.
+ * @author Manuel Hegner
+ *
+ */
 public final class IOConfig {
 	/**
 	 * There is no reason to create an instance.

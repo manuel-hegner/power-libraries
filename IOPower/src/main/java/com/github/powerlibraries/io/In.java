@@ -13,6 +13,10 @@ import com.github.powerlibraries.io.builder.sources.Source;
 import com.github.powerlibraries.io.builder.sources.StringSource;
 import com.github.powerlibraries.io.builder.sources.URLSource;
 
+/**
+ * This class contains a number of useful static methods that help creating InputStreams and Readers.
+ * @author Manuel Hegner
+ */
 public interface In {
 	
 	/**
