@@ -87,9 +87,10 @@ public interface Out {
 	}
 	
 	/**
-	 * This creates an ouput of any kind to a {@link StringBuilderOutputStream}. The returned {@link ByteOutBuilder} 
-	 * can be used to specifiy which kind of Writer or OutputStream should be created and allows you 
-	 * to specify further how the output chain is build.
+	 * This creates an ouput of any kind to a 
+	 * {@link com.github.powerlibraries.io.helper.stringout.StringBuilderOutputStream}. 
+	 * The returned {@link ByteOutBuilder} can be used to specifiy which kind of Writer
+	 * or OutputStream should be created and allows you to specify further how the output chain is build.
 	 * The returned {@link ByteOutBuilder} returns wrappers instead of the normal {@link OutputStream}s and 
 	 * {@link Writer}s that allow you to directly access the underlying byte array.
 	 * @return an {@link ByteOutBuilder} used to specify which kind of output should be created
