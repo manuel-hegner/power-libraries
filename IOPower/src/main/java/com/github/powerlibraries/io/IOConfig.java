@@ -26,7 +26,7 @@ public final class IOConfig {
 	 * This method sets the default {@link Charset} that is used by all In and OutBuilders.
 	 * By default this is the platform default charset returned by
 	 * {@link Charset#defaultCharset()}.
-	 * @param the {@link Charset} that should be used by default
+	 * @param charset the {@link Charset} that should be used by default
 	 */
 	public static void setDefaultCharset(Charset charset) {
 		if(charset==null)
@@ -39,9 +39,9 @@ public final class IOConfig {
 	 * by calling {@link Charset#forName(String)} on the given name.
 	 * By default this is the platform default charset returned by
 	 * {@link Charset#defaultCharset()}.
-	 * @param the name of a {@link Charset} that should be used by default
-	 * @throws If no support for the named charset is available in this instance of the 
-	 * Java virtual machine
+	 * @param charsetName the name of a {@link Charset} that should be used by default
+	 * @throws UnsupportedCharsetException if no support for the named charset is 
+	 * available in this instance of the Java virtual machine
 	 */
 	public static void setDefaultCharset(String charsetName) throws UnsupportedCharsetException{
 		DEFAULT_CHARSET=Charset.forName(charsetName);

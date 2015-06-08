@@ -207,7 +207,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	}
 	
 	/**
-	 * Copies the content of this {@link Reader} to the given {@link Writer}.
+	 * Copies the content of this {@link BufferedReader} to the given {@link Writer}.
 	 * This does not close the {@link Writer}.
 	 * @param out the {@link Writer} to copy to
 	 * @throws IOException if any element of the chain throws an {@link IOException}

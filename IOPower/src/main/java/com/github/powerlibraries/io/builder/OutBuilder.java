@@ -52,6 +52,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
 	 * of the elements and writing them on seperate lines.
 	 * @param array the array to write to the output
+	 * @param <T> the array element type
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public <T> void writeLines(T[] array) throws IOException {

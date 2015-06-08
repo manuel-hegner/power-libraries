@@ -13,7 +13,7 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	
 	/**
 	 * This method returns the the {@link Charset} that is used to create writers.
-	 * It uses {@link Out#getDefaultCharset} by default.
+	 * It uses {@link IOConfig#getDefaultCharset} by default.
 	 * @return the charset to be used
 	 */
 	public Charset getCharset() {
