@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -186,6 +188,36 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 			while((l=in.readLine())!=null)
 				list.add(l);
 			return list;
+		}
+	}
+	
+	/**
+	 * Copies the content of this {@link InputStream} to the given {@link OutputStream}.
+	 * This does not close the {@link OutputStream}.
+	 * @param out the {@link OutputStream} to copy to
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void copyTo(OutputStream out) throws IOException {
+		try(InputStream in=createInputStream()) {
+			byte[] buffer = new byte[8192];
+			int len = 0;
+			while ((len=in.read(buffer)) != -1)
+				out.write(buffer, 0, len);
+		}
+	}
+	
+	/**
+	 * Copies the content of this {@link Reader} to the given {@link Writer}.
+	 * This does not close the {@link Writer}.
+	 * @param out the {@link Writer} to copy to
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void copyTo(Writer out) throws IOException {
+		try(BufferedReader in=this.toReader()) {
+			char[] buffer = new char[4096];
+			int len = 0;
+			while ((len=in.read(buffer)) != -1)
+				out.write(buffer, 0, len);
 		}
 	}
 	

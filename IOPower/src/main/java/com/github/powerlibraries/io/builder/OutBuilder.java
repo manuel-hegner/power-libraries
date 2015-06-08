@@ -1,8 +1,13 @@
 package com.github.powerlibraries.io.builder;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -98,6 +103,36 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 		try(BufferedOutputStream out=new BufferedOutputStream(createOutputStream())) {
 			
 			transformer.transform(new DOMSource(document), new StreamResult(out));
+		}
+	}
+	
+	/**
+	 * Copies the content of the given {@link InputStream} to this output
+	 * @param in the {@link InputStream} to copy from
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void copyFrom(InputStream in) throws IOException {
+		try(OutputStream out=this.fromStream();
+				InputStream input=in;) {
+			byte[] buffer = new byte[8192];
+			int len = 0;
+			while ((len=input.read(buffer)) != -1)
+				out.write(buffer, 0, len);
+		}
+	}
+	
+	/**
+	 * Copies the content of the given {@link Reader} to this output
+	 * @param in the {@link Reader} to copy from
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void copyFrom(Reader in) throws IOException {
+		try(BufferedWriter out=this.fromWriter();
+				Reader input=in;) {
+			char[] buffer = new char[4096];
+			int len = 0;
+			while ((len=input.read(buffer)) != -1)
+				out.write(buffer, 0, len);
 		}
 	}
 }
