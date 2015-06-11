@@ -17,9 +17,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<url>https://github.com/power-libraries/power-libraries</url>
-		<connection>scm:git:git://github.com/power-libraries/power-libraries.git</connection>
-		<developerConnection>scm:git:git@github.com:power-libraries/power-libraries.git</developerConnection>
+		<url>https://github.com/power-libraries/iopower</url>
+		<connection>scm:git:git://github.com/power-libraries/iopower.git</connection>
+		<developerConnection>scm:git:git@github.com:power-libraries/iopower.git</developerConnection>
 	</scm>
 	
 	<build>
