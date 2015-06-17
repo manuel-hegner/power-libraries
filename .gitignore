@@ -14,3 +14,6 @@ hs_err_pid*
 /bin/
 /target/**
 /javadocs.xml
+/website-source/
+/target/
+/dist/
