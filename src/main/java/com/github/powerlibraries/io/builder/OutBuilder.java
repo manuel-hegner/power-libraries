@@ -41,7 +41,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
+	 * of the elements and writing them on separate lines.
 	 * @param iterable the {@link Iterable} to write to the output
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
@@ -51,7 +51,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
+	 * of the elements and writing them on separate lines.
 	 * @param array the array to write to the output
 	 * @param <T> the array element type
 	 * @throws IOException if any element of the chain throws an {@link IOException}
@@ -68,7 +68,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
-	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
+	 * {@link Objects#toString()} on each of the elements and writing them on separate lines.
 	 * @param iterator the {@link Iterator} to write to the output
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
@@ -84,8 +84,9 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
+	 * of the elements and writing them separated by the separator.
 	 * @param iterable the {@link Iterable} to write to the output
+	 * @param separator the {@link String} written between each element
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void write(Iterable<?> iterable, String separator) throws IOException {
@@ -94,8 +95,9 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
-	 * of the elements and writing them on seperate lines.
+	 * of the elements and writing them separated by the separator.
 	 * @param array the array to write to the output
+	 * @param separator the {@link String} written between each element
 	 * @param <T> the array element type
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
@@ -111,8 +113,9 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	
 	/**
 	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
-	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
+	 * {@link Objects#toString()} on each of the elements and writing them separated by the separator.
 	 * @param iterator the {@link Iterator} to write to the output
+	 * @param separator the {@link String} written between each element
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public void write(Iterator<?> iterator, String separator) throws IOException {
