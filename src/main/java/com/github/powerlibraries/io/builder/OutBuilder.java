@@ -83,6 +83,49 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	}
 	
 	/**
+	 * This method writes the given {@link Iterable} to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param iterable the {@link Iterable} to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(Iterable<?> iterable, String separator) throws IOException {
+		write(iterable.iterator(),separator);
+	}
+	
+	/**
+	 * This method writes the given array to the output by calling {@link Objects#toString()} on each
+	 * of the elements and writing them on seperate lines.
+	 * @param array the array to write to the output
+	 * @param <T> the array element type
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public <T> void write(T[] array, String separator) throws IOException {
+		try(BufferedWriter out=this.asWriter()) {
+			for(int i=0;i<array.length;i++) {
+				if(i>0)
+					out.write(separator);
+				out.write(Objects.toString(array[i]));
+			}
+		}
+	}
+	
+	/**
+	 * This method writes the given remaining content of the {@link Iterator} to the output by calling 
+	 * {@link Objects#toString()} on each of the elements and writing them on seperate lines.
+	 * @param iterator the {@link Iterator} to write to the output
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(Iterator<?> iterator, String separator) throws IOException {
+		try(BufferedWriter out=this.asWriter()) {
+			while(iterator.hasNext()) {
+				out.write(Objects.toString(iterator.next()));
+				if(iterator.hasNext())
+					out.write(separator);
+			}
+		}
+	}
+	
+	/**
 	 * This method writes the given XML document to the output. It uses a 
 	 * default {@link TransformerFactory} and {@link Transformer}.
 	 * @param document the document to write
