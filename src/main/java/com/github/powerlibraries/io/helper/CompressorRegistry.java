@@ -79,13 +79,14 @@ public class CompressorRegistry {
 	 * @throws IOException if the wrapper throws an IOException
 	 */
 	public InputStream wrap(String fileName, InputStream in) throws IOException {
+		int lastIndex=fileName.length();
 		int index=fileName.length();
-		while((index=fileName.lastIndexOf('.',index))>=0) {
-			InputStreamWrapper wrapper=extensionInputMap.get(fileName.substring(index+1));
-			if(wrapper!=null)
-				in=wrapper.wrap(in);
-			else
+		while((index=fileName.lastIndexOf('.',index-1))>=0) {
+			InputStreamWrapper wrapper=extensionInputMap.get(fileName.substring(index+1,lastIndex));
+			if(wrapper==null)
 				return in;
+			in=wrapper.wrap(in);
+			lastIndex=index;
 		}
 		return in;
 	}
@@ -99,13 +100,14 @@ public class CompressorRegistry {
 	 * @throws IOException if the wrapper throws an IOException
 	 */
 	public OutputStream wrap(String fileName, OutputStream out) throws IOException {
+		int lastIndex=fileName.length();
 		int index=fileName.length();
-		while((index=fileName.lastIndexOf('.',index))>=0) {
-			OutputStreamWrapper wrapper=extensionOutputMap.get(fileName.substring(index+1));
-			if(wrapper!=null)
-				out=wrapper.wrap(out);
-			else
+		while((index=fileName.lastIndexOf('.',index-1))>=0) {
+			OutputStreamWrapper wrapper=extensionOutputMap.get(fileName.substring(index+1,lastIndex));
+			if(wrapper==null)
 				return out;
+			out=wrapper.wrap(out);
+			lastIndex=index;
 		}
 		return out;
 	}
