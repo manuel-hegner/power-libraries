@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 import com.github.powerlibraries.io.builder.sources.Source;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
+import com.github.powerlibraries.io.helper.InputStreamWrapper;
 
 /**
  * This builder is used to create an input chain.
@@ -39,6 +40,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	private Source source;
 	private boolean decompress=false;
 	private Base64.Decoder base64Decoder=null;
+	private InputStreamWrapper decompressionWrapper;
 
 	public InBuilder(Source source) {
 		this.source=source;
@@ -55,6 +57,16 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 */
 	public InBuilder decompress() {
 		decompress=true;
+		return this;
+	}
+	
+	/**
+	 * This method will tell the builder to decompress the bytes using the given compression, e.g. <code>{@link GZipInputStream}::new</code>.
+	 * @return this builder
+	 */
+	public InBuilder decompress(InputStreamWrapper wrapper) {
+		decompress=true;
+		decompressionWrapper=wrapper;
 		return this;
 	}
 	
@@ -256,7 +268,6 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	 * @return a {@link Stream} containing the lines of this input
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	@SuppressWarnings("resource")
 	public Stream<String> streamLines() throws IOException {
 		BufferedReader in=this.asReader();
 		return in.lines().onClose(() ->  {
@@ -268,11 +279,12 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 		});
 	}
 
-	@SuppressWarnings("resource")
 	private InputStream createInputStream() throws IOException {
 		InputStream stream=source.openStream();
 		if(decompress) {
-			if(source.hasName() && CompressorRegistry.getInstance().canWrapInput(source.getName()))
+			if(decompressionWrapper!=null)
+				stream=decompressionWrapper.wrap(stream);
+			else if(source.hasName() && CompressorRegistry.getInstance().canWrapInput(source.getName()))
 				stream=CompressorRegistry.getInstance().wrap(source.getName(), stream);
 			else
 				stream=new DeflaterInputStream(stream);

@@ -15,6 +15,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.github.powerlibraries.io.builder.targets.Target;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
+import com.github.powerlibraries.io.helper.OutputStreamWrapper;
 
 /**
  * This builder is used to create an output chain.
@@ -27,6 +28,7 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	private Target target;
 	private boolean compress=false;
 	private Base64.Encoder base64Encoder=null;
+	private OutputStreamWrapper compressionWrapper;
 
 	public BaseOutBuilder(Target target) {
 		this.target=target;
@@ -43,6 +45,16 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 */
 	public SELF compress() {
 		compress=true;
+		return (SELF)this;
+	}
+	
+	/**
+	 * This method will tell the builder to compress the bytes using the given compression, e.g. <code>{@link GZipOutputStream}::new</code>.
+	 * @return this builder
+	 */
+	public SELF compress(OutputStreamWrapper wrapper) {
+		compress=true;
+		compressionWrapper=wrapper;
 		return (SELF)this;
 	}
 	
@@ -126,13 +138,14 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @return an OutputStream
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
-	@SuppressWarnings("resource")
 	protected OutputStream createOutputStream() throws IOException {
 		OutputStream stream=target.openStream();
 		if(base64Encoder!=null)
 			stream=base64Encoder.wrap(stream);
 		if(compress) {
-			if(target.hasName() && CompressorRegistry.getInstance().canWrapOutput(target.getName()))
+			if(compressionWrapper!=null)
+				stream=compressionWrapper.wrap(stream);
+			else if(target.hasName() && CompressorRegistry.getInstance().canWrapOutput(target.getName()))
 				stream=CompressorRegistry.getInstance().wrap(target.getName(), stream);
 			else
 				stream=new DeflaterOutputStream(stream);
