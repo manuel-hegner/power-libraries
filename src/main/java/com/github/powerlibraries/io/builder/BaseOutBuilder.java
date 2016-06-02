@@ -82,7 +82,8 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	}
 	
 	/**
-	 * This method will tell the builder to compress the bytes using the given compression, e.g. <code>{@link GZipOutputStream}::new</code>.
+	 * This method will tell the builder to compress the bytes using the given compression, e.g. <code>GZipOutputStream::new</code>.
+	 * @param wrapper the wrapper used to compress the bytes
 	 * @return this builder
 	 */
 	public SELF compress(OutputStreamWrapper wrapper) {

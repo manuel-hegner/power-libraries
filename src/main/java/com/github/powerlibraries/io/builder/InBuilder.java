@@ -93,7 +93,8 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	}
 	
 	/**
-	 * This method will tell the builder to decompress the bytes using the given compression, e.g. <code>{@link GZipInputStream}::new</code>.
+	 * This method will tell the builder to decompress the bytes using the given compression, e.g. <code>GZipInputStream::new</code>.
+	 * @param wrapper the wrapper used to decompress the bytes
 	 * @return this builder
 	 */
 	public InBuilder decompress(InputStreamWrapper wrapper) {
