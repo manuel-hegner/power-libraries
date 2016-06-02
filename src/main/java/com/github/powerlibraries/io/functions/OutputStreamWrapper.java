@@ -1,4 +1,4 @@
-package com.github.powerlibraries.io.helper;
+package com.github.powerlibraries.io.functions;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,13 +8,14 @@ import java.io.OutputStream;
  * 
  * @author Manuel Hegner
  */
+@FunctionalInterface
 public interface OutputStreamWrapper {
 	
 	/**
-	 * This method should wrap the given OutputStream out with another OutputStream (e.g. compression) and it.
+	 * This method should wrap the given OutputStream out with another OutputStream (e.g. compression) and return it.
 	 * @param out the stream given
 	 * @return a wrapped OutputStream
-	 * @throws IOException thrown by some OutputStream constructos
+	 * @throws IOException thrown by some OutputStream constructors
 	 */
 	public OutputStream wrap(OutputStream out) throws IOException;
 }

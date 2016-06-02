@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
+import java.util.zip.ZipInputStream;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,6 +43,23 @@ public class InTests {
 			while((l=in.readLine())!=null)
 				Assert.assertEquals(expectedIt.next(), l);
 			Assert.assertFalse(expectedIt.hasNext());
+		}
+	}
+	
+	@Test
+	public void testUncompressingZip() throws IOException {
+		ArrayList<String> expected=loadExpected(StandardCharsets.UTF_8);
+		
+		//test
+		try(ZipInputStream in=In.file("target/test-classes/utf8test.zip").asZip()) {
+			in.getNextEntry();
+			try(BufferedReader in2=In.stream(in).withUTF8().asReader()) {
+				String l;
+				Iterator<String> expectedIt=expected.iterator();
+				while((l=in2.readLine())!=null)
+					Assert.assertEquals(expectedIt.next(), l);
+				Assert.assertFalse(expectedIt.hasNext());
+			}
 		}
 	}
 	

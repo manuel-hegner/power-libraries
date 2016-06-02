@@ -8,14 +8,18 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.ZipOutputStream;
 
 import com.github.powerlibraries.io.builder.targets.Target;
+import com.github.powerlibraries.io.functions.OutputStreamWrapper;
+import com.github.powerlibraries.io.functions.WriterWrapper;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
-import com.github.powerlibraries.io.helper.OutputStreamWrapper;
 
 /**
  * This builder is used to create an output chain.
@@ -29,9 +33,38 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	private boolean compress=false;
 	private Base64.Encoder base64Encoder=null;
 	private OutputStreamWrapper compressionWrapper;
+	private List<OutputStreamWrapper> streamWrappers;
+	private List<WriterWrapper> writerWrappers;
 
 	public BaseOutBuilder(Target target) {
 		this.target=target;
+	}
+	
+	/**
+	 * Adds a wrapper around the generated OutputStream before creating a Writer or 
+	 * a special type of output. This wrapper will be applied before compression. 
+	 * @param wrapper the wrapper to apply to the generated OutputStream
+	 * @return this builder
+	 */
+	public SELF wrap(OutputStreamWrapper wrapper) {
+		if(streamWrappers==null)
+			streamWrappers=new ArrayList<>();
+		streamWrappers.add(wrapper);
+		return (SELF)this;
+	}
+	
+	/**
+	 * Adds a wrapper around the generated Writer before creating a Writer or 
+	 * a special type of output. This wrapper will only be applied if the created 
+	 * output uses Writers. 
+	 * @param wrapper the wrapper to apply to the generated Writer
+	 * @return this builder
+	 */
+	public SELF wrap(WriterWrapper wrapper) {
+		if(writerWrappers==null)
+			writerWrappers=new ArrayList<>();
+		writerWrappers.add(wrapper);
+		return (SELF)this;
 	}
 	
 	/**
@@ -93,7 +126,12 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 	 * @throws IOException if any element of the chain throws an {@link IOException}
 	 */
 	public BufferedWriter asWriter() throws IOException {
-		return new BufferedWriter(new OutputStreamWriter(createOutputStream(), getCharset()));
+		Writer writer = new OutputStreamWriter(createOutputStream(), getCharset());
+		if(writerWrappers!=null) {
+			for(WriterWrapper w:writerWrappers)
+				writer=w.wrap(writer);
+		}
+		return new BufferedWriter(writer);
 	}
 	
 	/**
@@ -149,6 +187,10 @@ public abstract class BaseOutBuilder <SELF extends BaseOutBuilder<SELF>> extends
 				stream=CompressorRegistry.getInstance().wrap(target.getName(), stream);
 			else
 				stream=new DeflaterOutputStream(stream);
+		}
+		if(streamWrappers!=null) {
+			for(OutputStreamWrapper w:streamWrappers)
+				stream=w.wrap(stream);
 		}
 		return stream;
 	}

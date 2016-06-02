@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -19,6 +21,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 import com.github.powerlibraries.io.builder.targets.Target;
+import com.github.powerlibraries.io.functions.BufferedWriterConsumer;
+import com.github.powerlibraries.io.functions.OutputStreamConsumer;
+import com.github.powerlibraries.io.functions.WriterConsumer;
 
 public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 
@@ -191,6 +196,42 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	public void writeObject(Object object) throws IOException {
 		try(ObjectOutputStream out=this.asObjects()) {
 			out.writeObject(object);
+		}
+	}
+	
+	/**
+	 * This method accepts a {@link Consumer} for a {@link Writer}, calls it with the defined output 
+	 * and closes the created {@link Writer}.
+	 * @param writerConsumer the consumer for the created writer
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(WriterConsumer writerConsumer) throws IOException {
+		try(BufferedWriter writer = this.asWriter()) {
+			writerConsumer.accept(writer);
+		}
+	}
+	
+	/**
+	 * This method accepts a {@link Consumer} for a {@link BufferedWriter}, calls it with the defined output 
+	 * and closes the created {@link BufferedWriter}.
+	 * @param writerConsumer the consumer for the created writer
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(BufferedWriterConsumer writerConsumer) throws IOException {
+		try(BufferedWriter writer = this.asWriter()) {
+			writerConsumer.accept(writer);
+		}
+	}
+	
+	/**
+	 * This method accepts a {@link Consumer} for an {@link OutputStream}, calls it with the defined output 
+	 * and closes the created {@link OutputStream}.
+	 * @param outputStreamConsumer the consumer for the created OutputStream
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void write(OutputStreamConsumer outputStreamConsumer) throws IOException {
+		try(OutputStream out = this.asStream()) {
+			outputStreamConsumer.accept(out);
 		}
 	}
 	

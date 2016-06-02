@@ -1,4 +1,4 @@
-package com.github.powerlibraries.io.helper;
+package com.github.powerlibraries.io.functions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +11,10 @@ import java.io.InputStream;
 @FunctionalInterface
 public interface InputStreamWrapper {
 	/**
-	 * This method should wrap the given InputStream in with another InputStream (e.g. decompression) and it.
+	 * This method should wrap the given InputStream in with another InputStream (e.g. decompression) and return it.
 	 * @param in the stream given
 	 * @return a wrapped InputStream
-	 * @throws IOException thrown by some InputStream constructos
+	 * @throws IOException thrown by some InputStream constructors
 	 */
 	public InputStream wrap(InputStream in) throws IOException;
 }

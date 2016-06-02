@@ -26,8 +26,11 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.github.powerlibraries.io.builder.sources.Source;
+import com.github.powerlibraries.io.functions.InputStreamWrapper;
+import com.github.powerlibraries.io.functions.OutputStreamWrapper;
+import com.github.powerlibraries.io.functions.ReaderWrapper;
+import com.github.powerlibraries.io.functions.WriterWrapper;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
-import com.github.powerlibraries.io.helper.InputStreamWrapper;
 
 /**
  * This builder is used to create an input chain.
@@ -41,16 +44,45 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	private boolean decompress=false;
 	private Base64.Decoder base64Decoder=null;
 	private InputStreamWrapper decompressionWrapper;
+	private List<InputStreamWrapper> streamWrappers;
+	private List<ReaderWrapper> readerWrappers;
 
 	public InBuilder(Source source) {
 		this.source=source;
 	}
 	
 	/**
+	 * Adds a wrapper around the generated InputStream before creating a Writer or 
+	 * a special type of input. This wrapper will be applied before decompression. 
+	 * @param wrapper the wrapper to apply to the generated InputStream
+	 * @return this builder
+	 */
+	public InBuilder wrap(InputStreamWrapper wrapper) {
+		if(streamWrappers==null)
+			streamWrappers=new ArrayList<>();
+		streamWrappers.add(wrapper);
+		return this;
+	}
+	
+	/**
+	 * Adds a wrapper around the generated Reader before creating a Reader or 
+	 * a special type of input. This wrapper will only be applied if the created 
+	 * input uses Readers. 
+	 * @param wrapper the wrapper to apply to the generated Reader
+	 * @return this builder
+	 */
+	public InBuilder wrap(ReaderWrapper wrapper) {
+		if(readerWrappers==null)
+			readerWrappers=new ArrayList<>();
+		readerWrappers.add(wrapper);
+		return this;
+	}
+	
+	/**
 	 * This method will tell the builder to decompress the bytes. The returned reader or stream will contain an 
 	 * appropriate decompressor. If the defined source specifies a name with a file ending, the builder will try to 
 	 * use the appropriate decompressor for the file extension. If there is no extension or it is unknown this
-	 * simply adds a {@link DeflaterOutputStream} to the chain.
+	 * simply adds a {@link DeflaterInputStream} to the chain.
 	 * 
 	 * If you want to add file extensions to the automatic selection see {@link CompressorRegistry#registerWrapper}.
 	 * @return this builder

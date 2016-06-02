@@ -6,8 +6,9 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
+
+import com.github.powerlibraries.io.functions.InputStreamWrapper;
+import com.github.powerlibraries.io.functions.OutputStreamWrapper;
 
 /**
  * This class is a central registry which maps common compression extensions to its respective in and ouputstreams.
@@ -26,7 +27,6 @@ public class CompressorRegistry {
 		extensionInputMap=new HashMap<>();
 		extensionOutputMap=new HashMap<>();
 		registerWrapper("gz", GZIPInputStream::new, GZIPOutputStream::new);
-		registerWrapper("zip", ZipInputStream::new, ZipOutputStream::new);
 	}
 	
 	/**

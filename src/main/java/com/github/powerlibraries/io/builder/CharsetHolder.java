@@ -87,7 +87,8 @@ public abstract class CharsetHolder <SELF extends CharsetHolder<SELF>> {
 	
 	/**
 	 * This method sets the charset that is used by all methods that end up writing Strings.
-	 * The given charsetName is resolved with {@link Charset#forName(String)}.
+	 * The given charsetName is resolved with {@link Charset#forName(String)}. Often it is
+	 * better to use {@link CharsetHolder#withCharset(Charset)} with the {@link StandardCharsets} helper class.
 	 * @param charsetName the name of the charset that should be used
 	 * @throws UnsupportedEncodingException If no support for the named charset is available 
 	 * in this instance of the Java virtual machine
