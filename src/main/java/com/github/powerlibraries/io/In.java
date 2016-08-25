@@ -36,6 +36,34 @@ public interface In {
 	 * This creates an input of any kind from a {@link File}. The returned {@link InBuilder} can be used
 	 * to specifiy which kind of Reader or InputStream should be created and allows you to specify further how
 	 * the input chain is build.
+	 * @param parent the path parent to read from
+	 * @param child the path child to read from
+	 * @return an {@link InBuilder} used to specify which kind of input should be created
+	 */
+	public static InBuilder file(File parent, String child) {
+		if(parent==null || child==null)
+			throw new NullPointerException("The given file was null");
+		return file(new File(parent, child));
+	}
+	
+	/**
+	 * This creates an input of any kind from a {@link File}. The returned {@link InBuilder} can be used
+	 * to specifiy which kind of Reader or InputStream should be created and allows you to specify further how
+	 * the input chain is build.
+	 * @param parent the path parent to read from
+	 * @param child the path child to read from
+	 * @return an {@link InBuilder} used to specify which kind of input should be created
+	 */
+	public static InBuilder file(String parent, String child) {
+		if(parent==null || child==null)
+			throw new NullPointerException("The given file was null");
+		return file(new File(parent, child));
+	}
+	
+	/**
+	 * This creates an input of any kind from a {@link File}. The returned {@link InBuilder} can be used
+	 * to specifiy which kind of Reader or InputStream should be created and allows you to specify further how
+	 * the input chain is build.
 	 * @param file the file to read from
 	 * @return an {@link InBuilder} used to specify which kind of input should be created
 	 */

@@ -44,6 +44,34 @@ public interface Out {
 			throw new NullPointerException("The given file was null");
 		return new OutBuilder(new FileTarget(file));
 	}
+	
+	/**
+	 * This creates an ouput of any kind to a {@link File}. The returned {@link OutBuilder} can be used
+	 * to specifiy which kind of Writer or OutputStream should be created and allows you to specify further how
+	 * the output chain is build.
+	 * @param parent the parent of the file to output to
+	 * @param child the output file relative to the parent
+	 * @return an {@link OutBuilder} used to specify which kind of output should be created
+	 */
+	public static OutBuilder file(File parent, String child) {
+		if(parent==null || child==null)
+			throw new NullPointerException("The given file was null");
+		return new OutBuilder(new FileTarget(new File(parent, child)));
+	}
+	
+	/**
+	 * This creates an ouput of any kind to a {@link File}. The returned {@link OutBuilder} can be used
+	 * to specifiy which kind of Writer or OutputStream should be created and allows you to specify further how
+	 * the output chain is build.
+	 * @param parent the parent of the file to output to
+	 * @param child the output file relative to the parent
+	 * @return an {@link OutBuilder} used to specify which kind of output should be created
+	 */
+	public static OutBuilder file(String parent, String child) {
+		if(parent==null || child==null)
+			throw new NullPointerException("The given file was null");
+		return new OutBuilder(new FileTarget(new File(parent, child)));
+	}
 
 	/**
 	 * This creates an ouput of any kind to an {@link OutputStream}. The returned {@link OutBuilder} can be used
