@@ -239,8 +239,15 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	public <T> List<T> readObjects() throws ClassNotFoundException, IOException {
 		try(ObjectInputStream in=this.asObjects()) {
 			ArrayList<T> objects=new ArrayList<>();
-			while(in.available()>0)
-				objects.add((T)in.readObject());
+			while(in.available()>0) {
+				try {
+					objects.add((T)in.readObject());
+				} catch(ClassNotFoundException e) {
+					throw new ClassNotFoundException("Error while trying to deserialize object "+objects.size(), e);
+				} catch(IOException e) {
+					throw new IOException("Error while trying to deserialize object "+objects.size(), e);
+				}
+			}
 			return objects;
 		}
 	}

@@ -224,8 +224,13 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 */
 	public byte[] writeObjects(Object... objects) throws IOException {
 		try(BAObjectOutputStream out=this.asObjects()) {
-			for(Object o:objects)
-				out.writeObject(o);
+			for(Object o:objects) {
+				try {
+					out.writeObject(o);
+				} catch(IOException e) {
+					throw new IOException("Error while trying to serialize object "+Objects.toString(o), e);
+				}
+			}
 			return out.toByteArray();
 		}
 	}
