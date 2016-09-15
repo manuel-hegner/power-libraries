@@ -248,6 +248,7 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 	 */
 	public byte[] writeObjects(Object... objects) throws IOException {
 		try(BAObjectOutputStream out=this.asObjects()) {
+			out.writeInt(objects.length);
 			for(Object o:objects) {
 				try {
 					out.writeObject(o);

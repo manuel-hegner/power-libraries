@@ -266,6 +266,7 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	 */
 	public void writeObjects(Object... objects) throws IOException {
 		try(ObjectOutputStream out=this.asObjects()) {
+			out.writeInt(objects.length);
 			for(Object o:objects) {
 				try {
 					out.writeObject(o);

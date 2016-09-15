@@ -250,6 +250,7 @@ public class StringOutBuilder extends BaseOutBuilder<StringOutBuilder> {
 	 */
 	public String writeObjects(Object... objects) throws IOException {
 		try(SBObjectOutputStream out=this.asObjects()) {
+			out.writeInt(objects.length);
 			for(Object o:objects) {
 				try {
 					out.writeObject(o);
