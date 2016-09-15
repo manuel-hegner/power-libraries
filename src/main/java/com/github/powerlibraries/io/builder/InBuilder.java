@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Stream;
-import java.util.zip.DeflaterInputStream;
-import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -27,9 +26,7 @@ import org.xml.sax.SAXException;
 
 import com.github.powerlibraries.io.builder.sources.Source;
 import com.github.powerlibraries.io.functions.InputStreamWrapper;
-import com.github.powerlibraries.io.functions.OutputStreamWrapper;
 import com.github.powerlibraries.io.functions.ReaderWrapper;
-import com.github.powerlibraries.io.functions.WriterWrapper;
 import com.github.powerlibraries.io.helper.CompressorRegistry;
 
 /**
@@ -320,7 +317,7 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 			else if(source.hasName() && CompressorRegistry.getInstance().canWrapInput(source.getName()))
 				stream=CompressorRegistry.getInstance().wrap(source.getName(), stream);
 			else
-				stream=new DeflaterInputStream(stream);
+				stream=new InflaterInputStream(stream);
 		}
 		if(base64Decoder!=null)
 			stream=base64Decoder.wrap(stream);
