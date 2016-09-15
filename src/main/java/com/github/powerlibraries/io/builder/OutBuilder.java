@@ -236,6 +236,28 @@ public class OutBuilder extends BaseOutBuilder<OutBuilder> {
 	}
 	
 	/**
+	 * This method writes the given array from offset to offset+length to the defined {@link OutputStream} and closes it.
+	 * @param bytes the byte array to write
+	 * @param offset the offset in the byte array
+	 * @param length the length of the bytes to write
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeBytes(byte[] bytes, int offset, int length) throws IOException {
+		try(OutputStream out = this.asStream()) {
+			out.write(bytes, offset, length);
+		}
+	}
+	
+	/**
+	 * This method writes the given array completely  to the {@link OutputStream} and closes it.
+	 * @param bytes the byte array to write
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void writeBytes(byte[] bytes) throws IOException {
+		writeBytes(bytes, 0, bytes.length);
+	}
+	
+	/**
 	 * This method writes the given objects to the underlying output
 	 * using an {@link ObjectOutputStream}. It does this by simply calling
 	 * {@link ObjectOutputStream#writeObject(Object)} with each given object.

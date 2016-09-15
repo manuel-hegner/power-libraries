@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.Iterator;
@@ -136,6 +137,29 @@ public class ByteOutBuilder extends BaseOutBuilder<ByteOutBuilder> {
 			}
 			return out.toByteArray();
 		}
+	}
+	
+	/**
+	 * This method writes the given array from offset to offset+length to the defined {@link OutputStream} and closes it.
+	 * @param bytes the byte array to write
+	 * @param offset the offset in the byte array
+	 * @param length the length of the bytes to write
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public byte[] writeBytes(byte[] bytes, int offset, int length) throws IOException {
+		try(BAOutputStream out = this.asStream()) {
+			out.write(bytes, offset, length);
+			return out.toByteArray();
+		}
+	}
+	
+	/**
+	 * This method writes the given array completely  to the {@link OutputStream} and closes it.
+	 * @param bytes the byte array to write
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public byte[] writeBytes(byte[] bytes) throws IOException {
+		return writeBytes(bytes, 0, bytes.length);
 	}
 	
 	/**

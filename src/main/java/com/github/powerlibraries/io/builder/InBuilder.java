@@ -269,6 +269,39 @@ public class InBuilder extends CharsetHolder<InBuilder>{
 	}
 	
 	/**
+	 * This method reads to the given array from offset to offset+length from the defined {@link InputStream} and closes it.
+	 * @param bytes the byte array to write
+	 * @param offset the offset in the byte array
+	 * @param length the length of the bytes to read
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void readBytes(byte[] bytes, int offset, int length) throws IOException {
+		try(InputStream in = this.asStream()) {
+			in.read(bytes, offset, length);
+		}
+	}
+	
+	/**
+	 * This method reads to the given array completely from the {@link InputStream} and closes it.
+	 * @param bytes the byte array to read
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public void readBytes(byte[] bytes) throws IOException {
+		readBytes(bytes, 0, bytes.length);
+	}
+	
+	/**
+	 * This method reads the given number of bytes from the defined {@link InputStream}, closes it, and returns the read bytes.
+	 * @param length the number of bytes to read
+	 * @throws IOException if any element of the chain throws an {@link IOException}
+	 */
+	public byte[] readBytes(int length) throws IOException {
+		byte[] bytes = new byte[length];
+		readBytes(bytes);
+		return bytes;
+	}
+	
+	/**
 	 * Copies the content of this {@link InputStream} to the given {@link OutputStream}.
 	 * This does not close the {@link OutputStream}.
 	 * @param out the {@link OutputStream} to copy to
