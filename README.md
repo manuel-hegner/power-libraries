@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/power-libraries/iopower.svg?style=svg)](https://circleci.com/gh/power-libraries/iopower)
+[![codecov](https://codecov.io/gh/power-libraries/iopower/branch/develop/graph/badge.svg)](https://codecov.io/gh/power-libraries/iopower)
+
 # IO Power
 Power Libraries is a small project to collect some repeatedly needed or otherwise useful Java 8 classes in a collection of lightweight libraries.
 
