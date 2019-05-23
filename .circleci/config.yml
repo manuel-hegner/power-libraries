@@ -7,7 +7,10 @@ jobs:
       - checkout
       - restore_cache:
           key: m2
-      - run: mvn -B -V -T 1C verify
+      - run: mvn -B -V -T 1C verify -P test-coverage
+      - run: bash <(curl -s https://codecov.io/bash)
+      - store_test_results:
+          path: target/surefire-reports
       - save_cache:
           paths:
             - ~/.m2
