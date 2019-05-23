@@ -6,9 +6,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: m2
+          key: m2
       - run: mvn -B -V -T 1C verify
       - save_cache:
-        paths:
-          - ~/.m2
-        key: m2
+          paths:
+            - ~/.m2
+          key: m2
