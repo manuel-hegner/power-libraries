@@ -1,5 +1,6 @@
-[![CircleCI](https://circleci.com/gh/power-libraries/iopower/tree/develop.svg?style=svg)](https://circleci.com/gh/power-libraries/iopower/tree/develop)
-[![codecov](https://codecov.io/gh/power-libraries/iopower/branch/develop/graph/badge.svg)](https://codecov.io/gh/power-libraries/iopower)
+[![CircleCI](https://img.shields.io/circleci/build/github/power-libraries/iopower/develop.svg)](https://circleci.com/gh/power-libraries/iopower/tree/develop)
+[![Codecov branch](https://img.shields.io/codecov/c/github/power-libraries/iopower/develop.svg)](https://codecov.io/gh/power-libraries/iopower)
+![GitHub release](https://img.shields.io/github/release/power-libraries/iopower.svg)
 
 # IO Power
 Power Libraries is a small project to collect some repeatedly needed or otherwise useful Java 9 classes in a collection of lightweight libraries.
